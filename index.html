@@ -16,16 +16,12 @@
   <style>
     body { font-family: 'Cairo', sans-serif; }
     
-    /* ========================================================
-       قواعد الطباعة: طباعة الملخص فقط وإخفاء باقي محتويات الصفحة
-       ======================================================== */
     @media print {
       @page {
         size: A4 portrait;
         margin: 12mm;
       }
       
-      /* إخفاء كل ما يحمل كلاس no-print أثناء الطباعة فقط */
       .no-print {
         display: none !important;
       }
@@ -67,7 +63,7 @@
 
   <div class="main-container max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10">
     
-    <!-- الشعار في أعلى الصفحة (الاستمارة) -->
+    <!-- الشعار في أعلى الصفحة -->
     <div class="no-print flex justify-center mb-4">
       <img src="./logo.png" alt="شعار المؤسسة" class="h-20 sm:h-24 w-auto object-contain">
     </div>
@@ -273,24 +269,24 @@
         </div>
       </section>
 
-      <!-- الزران الأساسيان في أسفل الاستمارة -->
+      <!-- شريط رسالة تأكيد الإرسال للجدول -->
+      <div id="statusMessage" class="hidden p-3 rounded-lg text-sm text-center font-semibold"></div>
+
+      <!-- الأزرار -->
       <div class="flex flex-wrap gap-3 justify-end pt-4">
-        <!-- الزر 1: مسح الاستمارة -->
         <button type="button" id="clearBtn" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold text-sm transition">
           مسح الاستمارة
         </button>
-        <!-- الزر 2: معاينة وتأكيد البطاقة -->
         <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition">
           معاينة وتأكيد البطاقة
         </button>
       </div>
     </form>
 
-    <!-- منطقة ملخص البطاقة (تظهر فقط بعد الضغط على معاينة وتأكيد البطاقة) -->
+    <!-- منطقة ملخص البطاقة -->
     <div id="outputSection" class="hidden mt-10 border-t border-slate-200 pt-8">
       <div class="no-print flex flex-wrap justify-between items-center gap-3 mb-6">
         <h3 class="text-xl font-bold text-slate-900">ملخص بطاقة الحالة المهنية</h3>
-        <!-- الزر الوحيد المطلوب: طباعة -->
         <button id="printBtn" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-semibold shadow transition flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -308,15 +304,22 @@
   </div>
 
   <script>
+    // =========================================================================
+    // ⚠️ ضع هنا رابط تطبيق Google Apps Script (الذي ينتهي بـ /exec)
+    // =========================================================================
+    const SCRIPT_URL = "VOTRE_URL_DE_DEPLOIEMENT_APPS_SCRIPT_ICI";
+
     const form = document.getElementById('practiceForm');
     const outputSection = document.getElementById('outputSection');
     const printableCard = document.getElementById('printableCard');
     const printBtn = document.getElementById('printBtn');
     const clearBtn = document.getElementById('clearBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMessage = document.getElementById('statusMessage');
 
     let currentTraineeName = "etudiant";
 
-    // استعادة المسودة تلقائياً من المتصفح
+    // استعادة المسودة تلقائياً
     const formFields = form.querySelectorAll('input, select, textarea');
     formFields.forEach(field => {
       const savedVal = localStorage.getItem('form_' + field.id);
@@ -330,17 +333,17 @@
       });
     });
 
-    // تفريغ الاستمارة عند الضغط على "مسح الاستمارة"
     clearBtn.addEventListener('click', () => {
       if (confirm('هل أنت متأكد من تفريغ الاستمارة؟')) {
         form.reset();
         localStorage.clear();
         outputSection.classList.add('hidden');
+        statusMessage.classList.add('hidden');
       }
     });
 
-    // توليد محتوى البطاقة عند الضغط على "معاينة وتأكيد البطاقة"
-    form.addEventListener('submit', (e) => {
+    // إرسال البيانات ومعاينة البطاقة
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const stakeholders = Array.from(document.querySelectorAll('input[name="stakeholders"]:checked')).map(el => el.value);
@@ -369,6 +372,7 @@
       currentTraineeName = data.traineeName || "etudiant";
       document.title = `بطاقة ممارسة مهنية - ${currentTraineeName}`;
 
+      // 1. توليد الملخص المرئي
       printableCard.innerHTML = `
         <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
           <div class="flex justify-center mb-2">
@@ -410,17 +414,44 @@
 
       outputSection.classList.remove('hidden');
       outputSection.scrollIntoView({ behavior: 'smooth' });
+
+      // 2. إرسال البيانات إلى Google Apps Script
+      if (SCRIPT_URL && SCRIPT_URL !== "VOTRE_URL_DE_DEPLOIEMENT_APPS_SCRIPT_ICI") {
+        submitBtn.disabled = true;
+        statusMessage.classList.remove('hidden');
+        statusMessage.className = "p-3 rounded-lg text-sm text-center font-semibold bg-blue-100 text-blue-800";
+        statusMessage.textContent = "جاري إرسال المعطيات إلى جدول البيانات...";
+
+        try {
+          // L'utilisation de mode: 'no-cors' est INDISPENSABLE pour Google Apps Script
+          await fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+          });
+
+          statusMessage.className = "p-3 rounded-lg text-sm text-center font-semibold bg-emerald-100 text-emerald-800";
+          statusMessage.textContent = "✓ تم تسجيل معطيات الحالة بنجاح في جدول البيانات المركزي.";
+        } catch (err) {
+          console.error(err);
+          statusMessage.className = "p-3 rounded-lg text-sm text-center font-semibold bg-amber-100 text-amber-800";
+          statusMessage.textContent = "تنبيه: حدث خطأ أثناء الاتصال بالجدول، يرجى مراجعة الرابط والتأكد من الصلاحيات.";
+        } finally {
+          submitBtn.disabled = false;
+        }
+      }
     });
 
     // زر الطباعة
     printBtn.addEventListener('click', () => {
       const cardContent = printableCard.innerHTML;
-
       if (!cardContent || cardContent.trim() === "") {
-        alert("يرجى ملء الاستمارة والضغط على 'معاينة وتأكيد البطاقة' أولاً.");
+        alert("يرجى ملء الاستمارة أولاً.");
         return;
       }
-
       window.print();
     });
   </script>
