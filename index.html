@@ -16,32 +16,65 @@
   <style>
     body { font-family: 'Cairo', sans-serif; }
     
+    /* ========================================================
+       قواعد الطباعة: طباعة الملخص فقط وإخفاء الاستمارة والأزرار
+       ======================================================== */
     @media print {
-      body * { visibility: hidden !important; }
-      #printableCard, #printableCard * { visibility: visible !important; }
-      #printableCard {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
+      @page {
+        size: A4 portrait;
+        margin: 12mm;
+      }
+      
+      /* إخفاء كل العناصر غير المرغوبة أثناء الطباعة */
+      .no-print, header, form, #printBtn, #clearBtn, #submitBtn {
+        display: none !important;
+      }
+
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .main-container {
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+
+      #outputSection {
+        display: block !important;
+        border: none !important;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+
+      #printableCard {
+        border: 1px solid #94a3b8 !important;
+        box-shadow: none !important;
+        padding: 16px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        display: block !important;
+        visibility: visible !important;
       }
     }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 sm:px-6">
 
-  <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10">
+  <div class="main-container max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10">
     
-    <!-- الشعار في أعلى الصفحة -->
-    <div class="flex justify-center mb-4">
+    <!-- الشعار في أعلى الصفحة (الاستمارة) -->
+    <div class="no-print flex justify-center mb-4">
       <img src="./logo.png" alt="شعار المؤسسة" class="h-20 sm:h-24 w-auto object-contain">
     </div>
 
     <!-- رأس الصفحة -->
-    <header class="border-b border-slate-200 pb-6 mb-8 text-center">
+    <header class="border-b border-slate-200 pb-6 mb-8 text-center no-print">
       <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold tracking-wide mb-2">
         تحليل الممارسات المهنية والتبصر الإداري
       </span>
@@ -51,7 +84,7 @@
       </p>
     </header>
 
-    <form id="practiceForm" class="space-y-8">
+    <form id="practiceForm" class="space-y-8 no-print">
 
       <!-- القسم 1: المعطيات العامة والسياقية -->
       <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
@@ -179,278 +212,4 @@
               <option value="ضغط وقت مفاجئ واستعجال غير مبرر">ضغط وقت مفاجئ / استعجال غير مبرر</option>
               <option value="خطأ وتضارب في المعطيات أو الوثائق">خطأ أو تضارب في المعطيات الإحصائية أو الوثائق</option>
               <option value="مقاومة للتغيير أو رفض تعليمات">مقاومة للتغيير أو رفض تنفيذ تعليمات</option>
-              <option value="توتر في التواصل وسلوك انفعالي">سلوك انفعالي / توتر في التواصل مع الأطراف</option>
-              <option value="فراغ أو تداخل في الاختصاص">فراغ أو تداخل في الاختصاص والمسؤوليات</option>
-            </select>
-            <input type="text" id="suddenEventDetail" placeholder="توضيح مختصر جداً للحدث الفعلي في جملة واحدة..." required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-semibold mb-1">3. رد فعلك وتصرفك اللحظي:</label>
-              <input type="text" id="immediateAction" placeholder="ما الإجراء المباشر الذي اتخذته فوراً؟" required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-            </div>
-
-            <div>
-              <label class="block text-sm font-semibold mb-1">4. الأثر المباشر للقرار اللحظي:</label>
-              <select id="directOutcome" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                <option value="حُلّ الإشكال آنياً بنجاح">حُلّ الإشكال آنياً بنجاح</option>
-                <option value="تأجل الحسم وبقي المشكل معلقاً">تأجل الحسم وبقي المشكل معلقاً</option>
-                <option value="تصاعد التوتر الإداري">تصاعد التوتر الإداري</option>
-                <option value="قرار ارتجالي مع الشعور بالتردد">قرار ارتجالي مع الشعور بالتردد</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- القسم 4: التبصر والسؤال الجماعي -->
-      <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
-        <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">4</span>
-          التبصر والسؤال الموجه للمناقشة الجماعية
-        </h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label class="block text-sm font-semibold mb-1">الشعور السائد أثناء اللحظة:</label>
-            <select id="emotionalImpression" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="حيرة وارتباك في الاختيار">حيرة وارتباك في الاختيار</option>
-              <option value="قلق من الوقوع في خطأ إداري">قلق من الوقوع في خطأ إداري</option>
-              <option value="ضغط السلطة التراتبية">ضغط السلطة التراتبية</option>
-              <option value="عجز لغياب سند قانوني صريح">عجز لغياب سند قانوني صريح</option>
-              <option value="اطمئنان ورضا نسبي">اطمئنان ورضا نسبي</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold mb-1">طبيعة الإحراج الإداري الأساسي:</label>
-            <select id="professionalDilemma" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="عدم وضوح المسطرة الإدارية">عدم وضوح المسطرة الإدارية المعمول بها</option>
-              <option value="صعوبة التوفيق بين صرامة النص ومرونة الميدان">التوفيق بين صرامة النص ومرونة الميدان</option>
-              <option value="إكراهات العلاقة التراتبية داخل المصلحة">إكراهات العلاقة التراتبية داخل المصلحة</option>
-              <option value="نقص في كفايات التفاوض وحل النزاع">نقص في كفايات التفاوض وحل النزاع</option>
-              <option value="أعطاب تقنية أو ضعف مصداقية المعطيات">أعطاب تقنية أو ضعف مصداقية المعطيات</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold mb-1">السؤال الموجه للنقاش الجماعي:</label>
-          <textarea id="collectiveQuestion" rows="2" placeholder="صغ سؤالاً إشكالياً دقيقاً تطرحه على زملائك والمؤطر..." required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
-        </div>
-      </section>
-
-      <!-- الأزرار -->
-      <div class="flex flex-wrap gap-3 justify-end pt-4">
-        <button type="button" id="clearBtn" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold text-sm transition">
-          مسح الاستمارة
-        </button>
-        <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition">
-          معاينة وتأكيد البطاقة
-        </button>
-      </div>
-    </form>
-
-    <!-- منطقة ملخص البطاقة -->
-    <div id="outputSection" class="hidden mt-10 border-t border-slate-200 pt-8">
-      <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
-        <h3 class="text-xl font-bold text-slate-900">ملخص بطاقة الحالة المهنية</h3>
-        <div class="flex gap-2">
-          <button id="downloadPdfBtn" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold shadow transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            تحميل الملخص بصيغة PDF
-          </button>
-        </div>
-      </div>
-
-      <!-- الحاوية المرئية للمعاينة على الشاشة -->
-      <div class="bg-white p-2 sm:p-4 rounded-xl">
-        <div id="printableCard" class="p-8 border border-slate-300 rounded-xl bg-white text-slate-900 text-sm space-y-4" style="direction: rtl; text-align: right;">
-          <!-- يملأ ديناميكياً بواسطة JavaScript -->
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const form = document.getElementById('practiceForm');
-    const outputSection = document.getElementById('outputSection');
-    const printableCard = document.getElementById('printableCard');
-    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-    const clearBtn = document.getElementById('clearBtn');
-
-    let currentTraineeName = "etudiant";
-
-    // استعادة المسودة تلقائياً من المتصفح
-    const formFields = form.querySelectorAll('input, select, textarea');
-    formFields.forEach(field => {
-      const savedVal = localStorage.getItem('form_' + field.id);
-      if (savedVal && field.type !== 'checkbox') {
-        field.value = savedVal;
-      }
-      field.addEventListener('input', () => {
-        if (field.type !== 'checkbox') {
-          localStorage.setItem('form_' + field.id, field.value);
-        }
-      });
-    });
-
-    clearBtn.addEventListener('click', () => {
-      if (confirm('هل أنت متأكد من تفريغ الاستمارة؟')) {
-        form.reset();
-        localStorage.clear();
-        outputSection.classList.add('hidden');
-      }
-    });
-
-    // توليد محتوى البطاقة عند المعاينة
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const stakeholders = Array.from(document.querySelectorAll('input[name="stakeholders"]:checked')).map(el => el.value);
-
-      const data = {
-        traineeName: document.getElementById('traineeName').value.trim(),
-        trainingLocationType: document.getElementById('trainingLocationType').value,
-        departmentName: document.getElementById('departmentName').value.trim(),
-        eventDate: document.getElementById('eventDate').value,
-        eventPeriod: document.getElementById('eventPeriod').value,
-        workloadContext: document.getElementById('workloadContext').value,
-        exactLocation: document.getElementById('exactLocation').value,
-        stakeholders: stakeholders.length > 0 ? stakeholders.join('، ') : 'لم يحدد',
-        functionalField: document.getElementById('functionalField').value,
-        taskNature: document.getElementById('taskNature').value,
-        intendedGoal: document.getElementById('intendedGoal').value.trim(),
-        suddenEventType: document.getElementById('suddenEventType').value,
-        suddenEventDetail: document.getElementById('suddenEventDetail').value.trim(),
-        immediateAction: document.getElementById('immediateAction').value.trim(),
-        directOutcome: document.getElementById('directOutcome').value,
-        emotionalImpression: document.getElementById('emotionalImpression').value,
-        professionalDilemma: document.getElementById('professionalDilemma').value,
-        collectiveQuestion: document.getElementById('collectiveQuestion').value.trim()
-      };
-
-      currentTraineeName = data.traineeName || "etudiant";
-
-      printableCard.innerHTML = `
-        <div style="border-bottom: 2px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; text-align: center; direction: rtl;">
-          <div style="display: flex; justify-content: center; margin-bottom: 8px;">
-            <img src="./logo.png" alt="Logo" style="height: 60px; max-width: 180px; object-fit: contain;">
-          </div>
-          <div style="font-size: 18px; font-weight: bold; color: #0f172a; margin-bottom: 4px;">بطاقة ممارسة مهنية معيشة للتحليل التبصري الجماعي</div>
-          <div style="font-size: 12px; color: #475569;">مصالح التخطيط والإدارة التربوية والحكامة</div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px; direction: rtl;">
-          <div><strong style="color: #334155;">المتدرب(ة):</strong> ${data.traineeName}</div>
-          <div><strong style="color: #334155;">مقر التدريب:</strong> ${data.trainingLocationType} - ${data.departmentName}</div>
-          <div><strong style="color: #334155;">التاريخ والتوقيت:</strong> ${data.eventDate} (${data.eventPeriod})</div>
-          <div><strong style="color: #334155;">السياق والمكان:</strong> ${data.workloadContext} | ${data.exactLocation}</div>
-          <div style="grid-column: span 2;"><strong style="color: #334155;">الأطراف المتدخلة:</strong> ${data.stakeholders}</div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px; direction: rtl;">
-          <div><strong style="color: #334155;">المجال الوظيفي:</strong> ${data.functionalField}</div>
-          <div><strong style="color: #334155;">المهمة قيد الإنجاز:</strong> ${data.taskNature}</div>
-          <div style="grid-column: span 2;"><strong style="color: #334155;">الهدف المسبق:</strong> ${data.intendedGoal}</div>
-        </div>
-
-        <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px; line-height: 1.6; direction: rtl;">
-          <div><strong style="color: #334155;">الحدث المباغت / المشكل:</strong> ${data.suddenEventType} - ${data.suddenEventDetail}</div>
-          <div style="margin-top: 4px;"><strong style="color: #334155;">التصرف والقرار اللحظي:</strong> ${data.immediateAction}</div>
-          <div style="margin-top: 4px;"><strong style="color: #334155;">الأثر المباشر للقرار:</strong> ${data.directOutcome}</div>
-        </div>
-
-        <div style="font-size: 13px; line-height: 1.6; direction: rtl;">
-          <div><strong style="color: #334155;">الانطباع الوجداني وطبيعة الإحراج:</strong> ${data.emotionalImpression} | ${data.professionalDilemma}</div>
-          
-          <div style="margin-top: 12px; padding: 12px; background-color: #f1f5f9; border-radius: 8px; border: 1px solid #cbd5e1;">
-            <strong style="color: #1e3a8a; display: block; margin-bottom: 4px;">السؤال الإشكالي الموجه للنقاش الجماعي:</strong>
-            <p style="color: #0f172a; font-weight: bold; margin: 0;">${data.collectiveQuestion}</p>
-          </div>
-        </div>
-      `;
-
-      outputSection.classList.remove('hidden');
-      outputSection.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // =========================================================================
-    // الحل 2 : توليد وحفظ PDF نقي ومعزول عبر نافذة طباعة مخصصة
-    // =========================================================================
-    downloadPdfBtn.addEventListener('click', () => {
-      const cardContent = printableCard.innerHTML;
-
-      if (!cardContent || cardContent.trim() === "") {
-        alert("يرجى ملء الاستمارة والضغط على 'معاينة وتأكيد البطاقة' أولاً.");
-        return;
-      }
-
-      // إنشاء نافذة طباعة معزولة تحتوي فقط على ملخص البطاقة
-      const printWindow = window.open('', '_blank', 'width=850,height=900');
-      
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="ar" dir="rtl">
-        <head>
-          <meta charset="UTF-8">
-          <title>بطاقة ممارسة مهنية - ${currentTraineeName}</title>
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-          <style>
-            @page {
-              size: A4 portrait;
-              margin: 15mm;
-            }
-            * {
-              box-sizing: border-box;
-            }
-            body {
-              font-family: 'Cairo', sans-serif;
-              direction: rtl;
-              text-align: right;
-              background-color: #ffffff;
-              color: #0f172a;
-              margin: 0;
-              padding: 0;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
-            .card-wrapper {
-              width: 100%;
-              max-width: 100%;
-              border: 1px solid #cbd5e1;
-              border-radius: 8px;
-              padding: 24px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="card-wrapper">
-            ${cardContent}
-          </div>
-          <script>
-            // انتظار تحميل الصورة والخطوط قبل إطلاق الطباعة
-            window.onload = function() {
-              setTimeout(function() {
-                window.focus();
-                window.print();
-                // إغلاق النافذة المنبثقة تلقائياً بعد إنهاء أو إلغاء الطباعة
-                setTimeout(function() {
-                  window.close();
-                }, 500);
-              }, 300);
-            };
-          <\/script>
-        </body>
-        </html>
-      `);
-      
-      printWindow.document.close();
-    });
-  </script>
-</body>
-</html>
+              <option value="توتر
