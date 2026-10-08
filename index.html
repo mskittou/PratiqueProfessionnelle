@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منظومة رصد وتحليل الممارسات المهنية</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: #ffffff; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 sm:px-6">
+
+  <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10 print-shadow-none">
+    
+    <!-- رأس الصفحة -->
+    <header class="border-b border-slate-200 pb-6 mb-8 text-center">
+      <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold tracking-wide mb-2">
+        تحليل الممارسات المهنية والتبصر الإداري
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">بطاقة رصد حالة مهنية للتحليل التبصري الجماعي</h1>
+      <p class="text-sm text-slate-500 mt-2">
+        خاص بالمتدربين بالمصالح المركزية، الأكاديميات الجهوية للتربية والتكوين، والمديريات الإقليمية
+      </p>
+    </header>
+
+    <form id="practiceForm" class="space-y-8">
+
+      <!-- القسم 1: المعطيات العامة والسياقية -->
+      <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+        <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">1</span>
+          المعطيات العامة والسياقية المباشرة
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">الاسم الكامل للمتدرب(ة):</label>
+            <input type="text" id="traineeName" required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">مقر التدريب:</label>
+            <select id="trainingLocationType" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="المديرية الإقليمية">المديرية الإقليمية</option>
+              <option value="الأكاديمية الجهوية (AREF)">الأكاديمية الجهوية للتربية والتكوين (AREF)</option>
+              <option value="الإدارة المركزية (الوزارة)">مصالح الإدارة المركزية (الوزارة)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">اسم المصلحة / القسم / المكتب:</label>
+            <input type="text" id="departmentName" placeholder="مثال: مصلحة التخطيط والخريطة المدرسية" required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">تاريخ وتوقيت الواقعة:</label>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="date" id="eventDate" required class="w-full rounded-lg border-slate-300 border p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <select id="eventPeriod" class="w-full rounded-lg border-slate-300 border p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                <option value="صباحاً">صباحاً</option>
+                <option value="بعد الزوال">بعد الزوال</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">ظرفية العمل:</label>
+            <select id="workloadContext" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="فترة عادية">فترة عمل عادية</option>
+              <option value="فترة ذروة وضغط موسمي">فترة ذروة / ضغط عمل موسمي (دخول مدرسي، امتحانات، إعداد الميزانية...)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">المكان الدقيق للواقعة:</label>
+            <select id="exactLocation" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="مكتب العمل الشخصي">مكتب العمل الشخصي</option>
+              <option value="مكتب الرئيس المباشر">مكتب الرئيس المباشر</option>
+              <option value="قاعة اجتماعات">قاعة اجتماعات</option>
+              <option value="شباك استقبال / فضاء تواصل خارجي">شباك استقبال / فضاء تواصل خارجي</option>
+              <option value="زيارة ميدانية لمؤسسة">زيارة ميدانية لمؤسسة تعليمية</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-semibold mb-2">الأطراف المتدخلة في الموقف (اختر كل من شارك أو حضر):</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="stakeholders" value="الرئيس المباشر" class="rounded text-blue-600"> الرئيس المباشر</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="stakeholders" value="زميل موظف" class="rounded text-blue-600"> زميل موظف / إطار إداري</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="stakeholders" value="مفتش تربوي/إداري" class="rounded text-blue-600"> مرشد / مفتش تربوي أو إداري</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="stakeholders" value="مدير مؤسسة تعليمية" class="rounded text-blue-600"> مدير مؤسسة تعليمية</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="stakeholders" value="أستاذ / إطار تدريس" class="rounded text-blue-600"> أستاذ / إطار تعليمي</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="stakeholders" value="مرتفق خارجي" class="rounded text-blue-600"> مرتفق خارجي (ولي أمر، نقابي...)</label>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم 2: طبيعة النشاط والمجال الإداري -->
+      <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+        <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">2</span>
+          طبيعة النشاط والمجال الإداري
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">المجال الوظيفي الرئيسي للوضعية:</label>
+            <select id="functionalField" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="التخطيط والخريطة المدرسية">التخطيط والخريطة المدرسية والتوقعات</option>
+              <option value="التدبير المالي والمادي والصفقات">التدبير المالي والمادي والمحاسباتي والصفقات</option>
+              <option value="تدبير الموارد البشرية">تدبير الموارد البشرية والوضعيات الإدارية</option>
+              <option value="الشؤون التربوية وتتبع المشاريع">الشؤون التربوية وتتبع المشاريع والبرامج</option>
+              <option value="الشؤون القانونية والمنازعات والشكايات">الشؤون القانونية والمنازعات والشكايات</option>
+              <option value="الإعلام والتواصل والاستقبال">الإعلام، التواصل، واستقبال المرتفقين</option>
+              <option value="تدبير المنظومات الرقمية وقواعد البيانات">تدبير المنظومات الرقمية (مسار، ESISE...)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">طبيعة المهمة قيد الإنجاز:</label>
+            <select id="taskNature" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="معالجة ملف إداري فردي">معالجة ملف إداري فردي</option>
+              <option value="صياغة مراسلة أو تقرير إداري">صياغة مراسلة / تقرير إداري</option>
+              <option value="اجتماع تنسيقي أو تدبيري">اجتماع تنسيقي أو تدبيري</option>
+              <option value="استقبال ومعالجة شكاية">استقبال ومعالجة شكاية</option>
+              <option value="استخراج وتدقيق معطيات إحصائية">استخراج وتدقيق معطيات إحصائية</option>
+              <option value="إعداد ميزانية أو جداول التسيير">إعداد ميزانية أو جداول التسيير</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم 3: عناصر الوضعية -->
+      <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+        <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">3</span>
+          توصيف عناصر الوضعية والإحراج المهني
+        </h2>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">1. الهدف الإداري المسبق (سطر واحد):</label>
+            <input type="text" id="intendedGoal" placeholder="ما هي النتيجة التي كان يفترض الوصول إليها؟" required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">2. طبيعة الحدث المباغت / المشكل الفعلي:</label>
+            <select id="suddenEventType" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none mb-2">
+              <option value="تعارض بين نص قانوني ومقتضيات الميدان">تعارض بين نص قانوني/مذكرة وواقع الميدان</option>
+              <option value="ضغط وقت مفاجئ واستعجال غير مبرر">ضغط وقت مفاجئ / استعجال غير مبرر</option>
+              <option value="خطأ وتضارب في المعطيات أو الوثائق">خطأ أو تضارب في المعطيات الإحصائية أو الوثائق</option>
+              <option value="مقاومة للتغيير أو رفض تعليمات">مقاومة للتغيير أو رفض تنفيذ تعليمات</option>
+              <option value="توتر في التواصل وسلوك انفعالي">سلوك انفعالي / توتر في التواصل مع الأطراف</option>
+              <option value="فراغ أو تداخل في الاختصاص">فراغ أو تداخل في الاختصاص والمسؤوليات</option>
+            </select>
+            <input type="text" id="suddenEventDetail" placeholder="توضيح مختصر جداً للحدث الفعلي في جملة واحدة..." required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1">3. رد فعلك وتصرفك اللحظي:</label>
+              <input type="text" id="immediateAction" placeholder="ما الإجراء المباشر الذي اتخذته فوراً؟" required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-1">4. الأثر المباشر للقرار اللحظي:</label>
+              <select id="directOutcome" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                <option value="حُلّ الإشكال آنياً بنجاح">حُلّ الإشكال آنياً بنجاح</option>
+                <option value="تأجل الحسم وبقي المشكل معلقاً">تأجل الحسم وبقي المشكل معلقاً</option>
+                <option value="تصاعد التوتر الإداري">تصاعد التوتر الإداري</option>
+                <option value="قرار ارتجالي مع الشعور بالتردد">قرار ارتجالي مع الشعور بالتردد</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم 4: التقييم التبصري والسؤال الجماعي -->
+      <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+        <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">4</span>
+          التبصر والسؤال الموجه للمناقشة الجماعية
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">الشعور السائد أثناء اللحظة:</label>
+            <select id="emotionalImpression" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="حيرة وارتباك في الاختيار">حيرة وارتباك في الاختيار</option>
+              <option value="قلق من الوقوع في خطأ إداري">قلق من الوقوع في خطأ إداري</option>
+              <option value="ضغط السلطة التراتبية">ضغط السلطة التراتبية</option>
+              <option value="عجز لغياب سند قانوني صريح">عجز لغياب سند قانوني صريح</option>
+              <option value="اطمئنان ورضا نسبي">اطمئنان ورضا نسبي</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1">طبيعة الإحراج الإداري الأساسي:</label>
+            <select id="professionalDilemma" class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="عدم وضوح المسطرة الإدارية">عدم وضوح المسطرة الإدارية المعمول بها</option>
+              <option value="صعوبة التوفيق بين صرامة النص ومرونة الميدان">التوفيق بين صرامة النص ومرونة الميدان</option>
+              <option value="إكراهات العلاقة التراتبية داخل المصلحة">إكراهات العلاقة التراتبية داخل المصلحة</option>
+              <option value="نقص في كفايات التفاوض وحل النزاع">نقص في كفايات التفاوض وحل النزاع</option>
+              <option value="أعطاب تقنية أو ضعف مصداقية المعطيات">أعطاب تقنية أو ضعف مصداقية المعطيات</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold mb-1">السؤال الموجه للنقاش الجماعي:</label>
+          <textarea id="collectiveQuestion" rows="2" placeholder="صغ سؤالاً إشكالياً دقيقاً تطرحه على زملائك والمؤطر (مثال: كيف ندبر حالة التناقض بين استعجال الإدارة والمسطرة القانونية؟)" required class="w-full rounded-lg border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+        </div>
+      </section>
+
+      <!-- أزرار الإجراءات -->
+      <div class="flex flex-wrap gap-3 justify-end no-print pt-4">
+        <button type="button" id="clearBtn" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold text-sm transition">
+          مسح الاستمارة
+        </button>
+        <button type="submit" class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition">
+          معاينة وتأكيد البطاقة
+        </button>
+      </div>
+    </form>
+
+    <!-- مساحة المعاينة والطباعة -->
+    <div id="outputSection" class="hidden mt-10 border-t border-slate-200 pt-8">
+      <div class="flex justify-between items-center mb-6 no-print">
+        <h3 class="text-xl font-bold text-slate-900">معاينة بطاقة الحالة للطباعة أو الحفظ</h3>
+        <div class="flex gap-2">
+          <button onclick="window.print()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-1.5">
+            طباعة / حفظ PDF
+          </button>
+          <button id="downloadJsonBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-medium transition">
+            تنزيل البيانات (JSON)
+          </button>
+        </div>
+      </div>
+
+      <div id="printableCard" class="bg-white p-6 border rounded-xl border-slate-300 text-sm space-y-4 leading-relaxed">
+        <!-- المحتوى المعاين يملأ عبر JavaScript -->
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('practiceForm');
+    const outputSection = document.getElementById('outputSection');
+    const printableCard = document.getElementById('printableCard');
+    const downloadJsonBtn = document.getElementById('downloadJsonBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    // حفظ تلقائي للمسودة في التخزين المحلي
+    const formFields = form.querySelectorAll('input, select, textarea');
+    formFields.forEach(field => {
+      const savedVal = localStorage.getItem('form_' + field.id);
+      if (savedVal && field.type !== 'checkbox') {
+        field.value = savedVal;
+      }
+      field.addEventListener('input', () => {
+        if (field.type !== 'checkbox') {
+          localStorage.setItem('form_' + field.id, field.value);
+        }
+      });
+    });
+
+    clearBtn.addEventListener('click', () => {
+      if (confirm('هل أنت متأكد من رغبتك في تفريغ الاستمارة؟')) {
+        form.reset();
+        localStorage.clear();
+        outputSection.classList.add('hidden');
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const stakeholders = Array.from(document.querySelectorAll('input[name="stakeholders"]:checked')).map(el => el.value);
+
+      const data = {
+        traineeName: document.getElementById('traineeName').value,
+        trainingLocationType: document.getElementById('trainingLocationType').value,
+        departmentName: document.getElementById('departmentName').value,
+        eventDate: document.getElementById('eventDate').value,
+        eventPeriod: document.getElementById('eventPeriod').value,
+        workloadContext: document.getElementById('workloadContext').value,
+        exactLocation: document.getElementById('exactLocation').value,
+        stakeholders: stakeholders.length > 0 ? stakeholders.join('، ') : 'لم يحدد',
+        functionalField: document.getElementById('functionalField').value,
+        taskNature: document.getElementById('taskNature').value,
+        intendedGoal: document.getElementById('intendedGoal').value,
+        suddenEventType: document.getElementById('suddenEventType').value,
+        suddenEventDetail: document.getElementById('suddenEventDetail').value,
+        immediateAction: document.getElementById('immediateAction').value,
+        directOutcome: document.getElementById('directOutcome').value,
+        emotionalImpression: document.getElementById('emotionalImpression').value,
+        professionalDilemma: document.getElementById('professionalDilemma').value,
+        collectiveQuestion: document.getElementById('collectiveQuestion').value
+      };
+
+      printableCard.innerHTML = `
+        <div class="border-b pb-4 mb-4">
+          <div class="text-center font-bold text-lg text-slate-800 mb-1">بطاقة ممارسة مهنية معيشة للنقاش التبادلي</div>
+          <div class="text-xs text-center text-slate-500">تم إنشاؤها عبر المنظومة الرقمية لتحليل الممارسات</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-y-2 gap-x-4 border-b pb-4">
+          <div><strong class="text-slate-700">المتدرب(ة):</strong> ${data.traineeName}</div>
+          <div><strong class="text-slate-700">هيئة التدريب:</strong> ${data.trainingLocationType} (${data.departmentName})</div>
+          <div><strong class="text-slate-700">التاريخ والتوقيت:</strong> ${data.eventDate} (${data.eventPeriod})</div>
+          <div><strong class="text-slate-700">سياق العمل والمكان:</strong> ${data.workloadContext} | ${data.exactLocation}</div>
+          <div class="col-span-2"><strong class="text-slate-700">الأطراف الحاضرة:</strong> ${data.stakeholders}</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-y-2 gap-x-4 border-b pb-4">
+          <div><strong class="text-slate-700">المجال الوظيفي:</strong> ${data.functionalField}</div>
+          <div><strong class="text-slate-700">طبيعة المهمة:</strong> ${data.taskNature}</div>
+          <div class="col-span-2"><strong class="text-slate-700">الهدف المسبق:</strong> ${data.intendedGoal}</div>
+        </div>
+
+        <div class="space-y-2 border-b pb-4">
+          <div><strong class="text-slate-700">الحدث المباغت:</strong> ${data.suddenEventType} - ${data.suddenEventDetail}</div>
+          <div><strong class="text-slate-700">التصرف اللحظي المتخذ:</strong> ${data.immediateAction}</div>
+          <div><strong class="text-slate-700">الأثر المباشر للقرار:</strong> ${data.directOutcome}</div>
+        </div>
+
+        <div class="space-y-2">
+          <div><strong class="text-slate-700">الانطباع الوجداني والإحراج الأساسي:</strong> ${data.emotionalImpression} | ${data.professionalDilemma}</div>
+          <div class="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <strong class="text-blue-900 block mb-1">السؤال الإشكالي الموجه للنقاش الجماعي:</strong>
+            <p class="text-blue-950 font-semibold">${data.collectiveQuestion}</p>
+          </div>
+        </div>
+      `;
+
+      outputSection.classList.remove('hidden');
+      outputSection.scrollIntoView({ behavior: 'smooth' });
+
+      // تنزيل المعطيات كملف JSON
+      downloadJsonBtn.onclick = () => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `fiche-pratique-${data.traineeName || 'etudiant'}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+    });
+  </script>
+</body>
+</html>
