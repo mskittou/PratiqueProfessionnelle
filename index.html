@@ -8,28 +8,29 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- html2pdf.js pour l'export PDF du résumé seul -->
+  <!-- html2pdf.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
-  <!-- Police Cairo -->
+  <!-- خط Cairo -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   
   <style>
     body { font-family: 'Cairo', sans-serif; }
+    
+    /* تنسيق خاص للطباعة المباشرة من المتصفح */
     @media print {
-      body * { visibility: hidden; }
-      #printableCard, #printableCard * { visibility: visible; }
+      body * { visibility: hidden !important; }
+      #printableCard, #printableCard * { visibility: visible !important; }
       #printableCard {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        margin: 0;
-        padding: 20px;
-        box-shadow: none !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
         border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
       }
     }
   </style>
@@ -37,14 +38,13 @@
 <body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 sm:px-6">
 
   <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10">
-    <div class="flex justify-center mb-6">
-  <img 
-    src="./logo.png" 
-    alt="شعار المؤسسة" 
-    class="h-20 sm:h-24 w-auto object-contain drop-shadow-sm"
-  >
-</div>
-    <!-- En-tête -->
+    
+    <!-- الشعار في أعلى الصفحة -->
+    <div class="flex justify-center mb-4">
+      <img src="./logo.png" alt="شعار المؤسسة" class="h-20 sm:h-24 w-auto object-contain">
+    </div>
+
+    <!-- رأس الصفحة -->
     <header class="border-b border-slate-200 pb-6 mb-8 text-center">
       <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold tracking-wide mb-2">
         تحليل الممارسات المهنية والتبصر الإداري
@@ -57,7 +57,7 @@
 
     <form id="practiceForm" class="space-y-8">
 
-      <!-- Section 1 -->
+      <!-- القسم 1: المعطيات العامة والسياقية -->
       <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
         <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">1</span>
@@ -128,7 +128,7 @@
         </div>
       </section>
 
-      <!-- Section 2 -->
+      <!-- القسم 2: طبيعة النشاط والمجال الإداري -->
       <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
         <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">2</span>
@@ -163,7 +163,7 @@
         </div>
       </section>
 
-      <!-- Section 3 -->
+      <!-- القسم 3: توصيف عناصر الوضعية -->
       <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
         <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">3</span>
@@ -208,7 +208,7 @@
         </div>
       </section>
 
-      <!-- Section 4 -->
+      <!-- القسم 4: التبصر والسؤال الجماعي -->
       <section class="bg-slate-50 rounded-xl p-5 border border-slate-200">
         <h2 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">4</span>
@@ -245,21 +245,18 @@
         </div>
       </section>
 
-      <!-- Message d'état de l'envoi -->
-      <div id="statusMessage" class="hidden p-4 rounded-lg text-sm text-center font-semibold"></div>
-
-      <!-- Boutons d'action -->
+      <!-- الأزرار -->
       <div class="flex flex-wrap gap-3 justify-end pt-4">
         <button type="button" id="clearBtn" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold text-sm transition">
           مسح الاستمارة
         </button>
-        <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition flex items-center gap-2">
-          <span>معاينة وتأكيد البطاقة</span>
+        <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition">
+          معاينة وتأكيد البطاقة
         </button>
       </div>
     </form>
 
-    <!-- Zone du Résumé et de l'Export PDF -->
+    <!-- منطقة ملخص البطاقة (تظهر فقط بعد الضغط على معاينة) -->
     <div id="outputSection" class="hidden mt-10 border-t border-slate-200 pt-8">
       <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
         <h3 class="text-xl font-bold text-slate-900">ملخص بطاقة الحالة المهنية</h3>
@@ -274,31 +271,26 @@
         </div>
       </div>
 
-      <!-- Ce bloc est LE SEUL qui sera converti en PDF -->
-      <div id="printableCard" class="bg-white p-8 border rounded-xl border-slate-300 text-sm space-y-5 leading-relaxed text-slate-900">
-        <!-- Rempli dynamiquement via JS -->
+      <!-- الحاوية المخصصة للتصدير: تصميم ورقة A4 واضحة ومستقلة -->
+      <div class="overflow-x-auto bg-slate-50 p-2 sm:p-4 rounded-xl">
+        <div id="printableCard" style="direction: rtl; text-align: right; background: #ffffff; width: 750px; margin: 0 auto;" class="p-8 border border-slate-300 rounded-xl text-slate-900 text-sm space-y-4">
+          <!-- يملأ ديناميكياً بواسطة JavaScript -->
+        </div>
       </div>
     </div>
 
   </div>
 
   <script>
-    // =========================================================================
-    // 1. CONFIGURATION : Collez ici l'URL de votre Google Apps Script Web App
-    // =========================================================================
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwO0MWHSjXSuDPE8ve_G2yJ5vrGj_w8S25kToENDB5c8OiqDz_tng2RK13pZNA_9Zh0vg/exec";
-
     const form = document.getElementById('practiceForm');
     const outputSection = document.getElementById('outputSection');
     const printableCard = document.getElementById('printableCard');
     const downloadPdfBtn = document.getElementById('downloadPdfBtn');
     const clearBtn = document.getElementById('clearBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusMessage = document.getElementById('statusMessage');
 
     let currentTraineeName = "etudiant";
 
-    // Récupération automatique du cache local
+    // استعادة المسودة تلقائياً
     const formFields = form.querySelectorAll('input, select, textarea');
     formFields.forEach(field => {
       const savedVal = localStorage.getItem('form_' + field.id);
@@ -313,16 +305,15 @@
     });
 
     clearBtn.addEventListener('click', () => {
-      if (confirm('هل أنت متأكد من رغبتك في تفريغ الاستمارة؟')) {
+      if (confirm('هل أنت متأكد من تفريغ الاستمارة؟')) {
         form.reset();
         localStorage.clear();
         outputSection.classList.add('hidden');
-        statusMessage.classList.add('hidden');
       }
     });
 
-    // Gestion de la soumission du formulaire
-    form.addEventListener('submit', async (e) => {
+    // معالجة الضغط على "معاينة وتأكيد البطاقة"
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const stakeholders = Array.from(document.querySelectorAll('input[name="stakeholders"]:checked')).map(el => el.value);
@@ -350,100 +341,87 @@
 
       currentTraineeName = data.traineeName || "etudiant";
 
-      // 1. Remplissage visuel du résumé (Printable Card)
+      // بناء محتوى الملخص بدقة مع الشعار
       printableCard.innerHTML = `
-        <div class="border-b-2 border-slate-800 pb-4 mb-4 text-center">
-    <div class="flex justify-center mb-3">
-      <img src="./logo.png" alt="شعار المؤسسة" class="h-16 w-auto object-contain">
-    </div>
-          <div class="font-bold text-xl text-slate-900 mb-1">بطاقة ممارسة مهنية معيشة للتحليل التبصري الجماعي</div>
-          <div class="text-xs text-slate-500">مصالح التخطيط والإدارة التربوية والحكامة</div>
+        <div style="border-bottom: 2px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; text-align: center;">
+          <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+            <img src="./logo.png" alt="Logo" style="height: 60px; max-width: 180px; object-fit: contain;">
+          </div>
+          <div style="font-size: 18px; font-weight: bold; color: #0f172a; margin-bottom: 4px;">بطاقة ممارسة مهنية معيشة للتحليل التبصري الجماعي</div>
+          <div style="font-size: 12px; color: #475569;">مصالح التخطيط والإدارة التربوية والحكامة</div>
         </div>
 
-        <div class="grid grid-cols-2 gap-y-2 gap-x-4 border-b border-slate-200 pb-4">
-          <div><strong class="text-slate-700">المتدرب(ة):</strong> ${data.traineeName}</div>
-          <div><strong class="text-slate-700">مقر التدريب:</strong> ${data.trainingLocationType} - ${data.departmentName}</div>
-          <div><strong class="text-slate-700">تاريخ وتوقيت الواقعة:</strong> ${data.eventDate} (${data.eventPeriod})</div>
-          <div><strong class="text-slate-700">السياق والمكان:</strong> ${data.workloadContext} | ${data.exactLocation}</div>
-          <div class="col-span-2"><strong class="text-slate-700">الأطراف المتدخلة:</strong> ${data.stakeholders}</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px;">
+          <div><strong style="color: #334155;">المتدرب(ة):</strong> ${data.traineeName}</div>
+          <div><strong style="color: #334155;">مقر التدريب:</strong> ${data.trainingLocationType} - ${data.departmentName}</div>
+          <div><strong style="color: #334155;">التاريخ والتوقيت:</strong> ${data.eventDate} (${data.eventPeriod})</div>
+          <div><strong style="color: #334155;">السياق والمكان:</strong> ${data.workloadContext} | ${data.exactLocation}</div>
+          <div style="grid-column: span 2;"><strong style="color: #334155;">الأطراف المتدخلة:</strong> ${data.stakeholders}</div>
         </div>
 
-        <div class="grid grid-cols-2 gap-y-2 gap-x-4 border-b border-slate-200 pb-4">
-          <div><strong class="text-slate-700">المجال الوظيفي:</strong> ${data.functionalField}</div>
-          <div><strong class="text-slate-700">المهمة قيد الإنجاز:</strong> ${data.taskNature}</div>
-          <div class="col-span-2"><strong class="text-slate-700">الهدف المسبق:</strong> ${data.intendedGoal}</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px;">
+          <div><strong style="color: #334155;">المجال الوظيفي:</strong> ${data.functionalField}</div>
+          <div><strong style="color: #334155;">المهمة قيد الإنجاز:</strong> ${data.taskNature}</div>
+          <div style="grid-column: span 2;"><strong style="color: #334155;">الهدف المسبق:</strong> ${data.intendedGoal}</div>
         </div>
 
-        <div class="space-y-2 border-b border-slate-200 pb-4">
-          <div><strong class="text-slate-700">الحدث المباغت / المشكل:</strong> ${data.suddenEventType} - ${data.suddenEventDetail}</div>
-          <div><strong class="text-slate-700">التصرف والقرار اللحظي:</strong> ${data.immediateAction}</div>
-          <div><strong class="text-slate-700">الأثر المباشر للقرار:</strong> ${data.directOutcome}</div>
+        <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px; line-height: 1.6;">
+          <div><strong style="color: #334155;">الحدث المباغت / المشكل:</strong> ${data.suddenEventType} - ${data.suddenEventDetail}</div>
+          <div style="margin-top: 4px;"><strong style="color: #334155;">التصرف والقرار اللحظي:</strong> ${data.immediateAction}</div>
+          <div style="margin-top: 4px;"><strong style="color: #334155;">الأثر المباشر للقرار:</strong> ${data.directOutcome}</div>
         </div>
 
-        <div class="space-y-3">
-          <div><strong class="text-slate-700">الانطباع الوجداني وطبيعة الإحراج:</strong> ${data.emotionalImpression} | ${data.professionalDilemma}</div>
-          <div class="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-300">
-            <strong class="text-blue-900 block mb-1">السؤال الإشكالي الموجه للنقاش الجماعي:</strong>
-            <p class="text-slate-900 font-bold">${data.collectiveQuestion}</p>
+        <div style="font-size: 13px; line-height: 1.6;">
+          <div><strong style="color: #334155;">الانطباع الوجداني وطبيعة الإحراج:</strong> ${data.emotionalImpression} | ${data.professionalDilemma}</div>
+          
+          <div style="margin-top: 12px; padding: 12px; background-color: #f1f5f9; border-radius: 8px; border: 1px solid #cbd5e1;">
+            <strong style="color: #1e3a8a; display: block; margin-bottom: 4px;">السؤال الإشكالي الموجه للنقاش الجماعي:</strong>
+            <p style="color: #0f172a; font-weight: bold; margin: 0;">${data.collectiveQuestion}</p>
           </div>
         </div>
       `;
 
-      // Afficher la section résumé
       outputSection.classList.remove('hidden');
       outputSection.scrollIntoView({ behavior: 'smooth' });
-
-      // 2. Envoi automatique des données vers Google Sheets
-      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI") {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span>جاري الحفظ والتسجيل...</span>`;
-        statusMessage.classList.remove('hidden');
-        statusMessage.className = "p-3 rounded-lg text-sm text-center font-semibold bg-amber-100 text-amber-800";
-        statusMessage.textContent = "جاري إرسال المعطيات إلى المنظومة المركزية...";
-
-        try {
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors", // Nécessaire pour Google Apps Script sans blocage CORS
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-          });
-
-          statusMessage.className = "p-3 rounded-lg text-sm text-center font-semibold bg-emerald-100 text-emerald-800";
-          statusMessage.textContent = "✓ تم تسجيل معطيات الحالة بنجاح في قاعدة البيانات.";
-        } catch (err) {
-          console.error(err);
-          statusMessage.className = "p-3 rounded-lg text-sm text-center font-semibold bg-rose-100 text-rose-800";
-          statusMessage.textContent = "تنبيه: حدث خطأ أثناء التسجيل عن بعد، لكن يمكنك تنزيل ملف PDF لبطاقتك في الأسفل.";
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span>معاينة وتأكيد البطاقة</span>`;
-        }
-      }
     });
 
-    // 3. Export PDF EXCLUSIF du résumé généré (#printableCard)
+    // توليد وتنزيل PDF بدون صفحة بيضاء
     downloadPdfBtn.addEventListener('click', () => {
       const element = document.getElementById('printableCard');
-      
+
+      downloadPdfBtn.innerText = "جاري إنشاء ملف PDF...";
+      downloadPdfBtn.disabled = true;
+
+      // إعدادات محكمة لـ html2pdf تضمن عدم ظهور صفحة بيضاء مع اللغة العربية والصور
       const opt = {
-        margin:       10,
+        margin:       [8, 8, 8, 8],
         filename:     `fiche-pratique-${currentTraineeName.replace(/\s+/g, '_')}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
+        html2canvas:  { 
+          scale: 2, 
+          useCORS: true,
+          logging: false,
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: 800
+        },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      downloadPdfBtn.innerText = "جاري إعداد ملف PDF...";
-      downloadPdfBtn.disabled = true;
-
-      html2pdf().set(opt).from(element).save().then(() => {
-        downloadPdfBtn.innerHTML = `
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          تحميل الملخص بصيغة PDF
-        `;
-        downloadPdfBtn.disabled = false;
-      });
+      // انتظار بسيط (200ms) لضمان اكتمال تصيير الشعار والخطوط قبل الالتقاط
+      setTimeout(() => {
+        html2pdf().set(opt).from(element).save().then(() => {
+          downloadPdfBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            تحميل الملخص بصيغة PDF
+          `;
+          downloadPdfBtn.disabled = false;
+        }).catch((err) => {
+          console.error(err);
+          alert("تعذر التصدير التلقائي لـ PDF. يمكنك الضغط على زر 'طباعة سريعة' واختيار Save as PDF.");
+          downloadPdfBtn.disabled = false;
+        });
+      }, 250);
     });
   </script>
 </body>
