@@ -341,42 +341,44 @@
 
       currentTraineeName = data.traineeName || "etudiant";
 
-      // بناء محتوى الملخص بدقة مع الشعار
+      // بناء محتوى الملخص
       printableCard.innerHTML = `
-        <div style="border-bottom: 2px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; text-align: center;">
-          <div style="display: flex; justify-content: center; margin-bottom: 8px;">
-            <img src="./logo.png" alt="Logo" style="height: 60px; max-width: 180px; object-fit: contain;">
+        <div style="direction: rtl; text-align: right; font-family: 'Cairo', sans-serif;">
+          <div style="border-bottom: 2px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; text-align: center;">
+            <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+              <img src="./logo.png" alt="Logo" style="height: 60px; max-width: 180px; object-fit: contain;">
+            </div>
+            <div style="font-size: 18px; font-weight: bold; color: #0f172a; margin-bottom: 4px;">بطاقة ممارسة مهنية معيشة للتحليل التبصري الجماعي</div>
+            <div style="font-size: 12px; color: #475569;">مصالح التخطيط والإدارة التربوية والحكامة</div>
           </div>
-          <div style="font-size: 18px; font-weight: bold; color: #0f172a; margin-bottom: 4px;">بطاقة ممارسة مهنية معيشة للتحليل التبصري الجماعي</div>
-          <div style="font-size: 12px; color: #475569;">مصالح التخطيط والإدارة التربوية والحكامة</div>
-        </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px;">
-          <div><strong style="color: #334155;">المتدرب(ة):</strong> ${data.traineeName}</div>
-          <div><strong style="color: #334155;">مقر التدريب:</strong> ${data.trainingLocationType} - ${data.departmentName}</div>
-          <div><strong style="color: #334155;">التاريخ والتوقيت:</strong> ${data.eventDate} (${data.eventPeriod})</div>
-          <div><strong style="color: #334155;">السياق والمكان:</strong> ${data.workloadContext} | ${data.exactLocation}</div>
-          <div style="grid-column: span 2;"><strong style="color: #334155;">الأطراف المتدخلة:</strong> ${data.stakeholders}</div>
-        </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px;">
+            <div><strong style="color: #334155;">المتدرب(ة):</strong> ${data.traineeName}</div>
+            <div><strong style="color: #334155;">مقر التدريب:</strong> ${data.trainingLocationType} - ${data.departmentName}</div>
+            <div><strong style="color: #334155;">التاريخ والتوقيت:</strong> ${data.eventDate} (${data.eventPeriod})</div>
+            <div><strong style="color: #334155;">السياق والمكان:</strong> ${data.workloadContext} | ${data.exactLocation}</div>
+            <div style="grid-column: span 2;"><strong style="color: #334155;">الأطراف المتدخلة:</strong> ${data.stakeholders}</div>
+          </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px;">
-          <div><strong style="color: #334155;">المجال الوظيفي:</strong> ${data.functionalField}</div>
-          <div><strong style="color: #334155;">المهمة قيد الإنجاز:</strong> ${data.taskNature}</div>
-          <div style="grid-column: span 2;"><strong style="color: #334155;">الهدف المسبق:</strong> ${data.intendedGoal}</div>
-        </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px;">
+            <div><strong style="color: #334155;">المجال الوظيفي:</strong> ${data.functionalField}</div>
+            <div><strong style="color: #334155;">المهمة قيد الإنجاز:</strong> ${data.taskNature}</div>
+            <div style="grid-column: span 2;"><strong style="color: #334155;">الهدف المسبق:</strong> ${data.intendedGoal}</div>
+          </div>
 
-        <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px; line-height: 1.6;">
-          <div><strong style="color: #334155;">الحدث المباغت / المشكل:</strong> ${data.suddenEventType} - ${data.suddenEventDetail}</div>
-          <div style="margin-top: 4px;"><strong style="color: #334155;">التصرف والقرار اللحظي:</strong> ${data.immediateAction}</div>
-          <div style="margin-top: 4px;"><strong style="color: #334155;">الأثر المباشر للقرار:</strong> ${data.directOutcome}</div>
-        </div>
+          <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; font-size: 13px; line-height: 1.6;">
+            <div><strong style="color: #334155;">الحدث المباغت / المشكل:</strong> ${data.suddenEventType} - ${data.suddenEventDetail}</div>
+            <div style="margin-top: 4px;"><strong style="color: #334155;">التصرف والقرار اللحظي:</strong> ${data.immediateAction}</div>
+            <div style="margin-top: 4px;"><strong style="color: #334155;">الأثر المباشر للقرار:</strong> ${data.directOutcome}</div>
+          </div>
 
-        <div style="font-size: 13px; line-height: 1.6;">
-          <div><strong style="color: #334155;">الانطباع الوجداني وطبيعة الإحراج:</strong> ${data.emotionalImpression} | ${data.professionalDilemma}</div>
-          
-          <div style="margin-top: 12px; padding: 12px; background-color: #f1f5f9; border-radius: 8px; border: 1px solid #cbd5e1;">
-            <strong style="color: #1e3a8a; display: block; margin-bottom: 4px;">السؤال الإشكالي الموجه للنقاش الجماعي:</strong>
-            <p style="color: #0f172a; font-weight: bold; margin: 0;">${data.collectiveQuestion}</p>
+          <div style="font-size: 13px; line-height: 1.6;">
+            <div><strong style="color: #334155;">الانطباع الوجداني وطبيعة الإحراج:</strong> ${data.emotionalImpression} | ${data.professionalDilemma}</div>
+            
+            <div style="margin-top: 12px; padding: 12px; background-color: #f1f5f9; border-radius: 8px; border: 1px solid #cbd5e1;">
+              <strong style="color: #1e3a8a; display: block; margin-bottom: 4px;">السؤال الإشكالي الموجه للنقاش الجماعي:</strong>
+              <p style="color: #0f172a; font-weight: bold; margin: 0;">${data.collectiveQuestion}</p>
+            </div>
           </div>
         </div>
       `;
@@ -385,32 +387,54 @@
       outputSection.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // توليد وتنزيل PDF بدون صفحة بيضاء
+    // تصدير PDF بدون أي إزاحة أو قص في الأطراف
     downloadPdfBtn.addEventListener('click', () => {
-      const element = document.getElementById('printableCard');
-
       downloadPdfBtn.innerText = "جاري إنشاء ملف PDF...";
       downloadPdfBtn.disabled = true;
 
-      // إعدادات محكمة لـ html2pdf تضمن عدم ظهور صفحة بيضاء مع اللغة العربية والصور
+      // 1. إنشاء حاوية مؤقتة معزولة تماماً في أقصى يسار وأعلى الصفحة
+      const clone = printableCard.cloneNode(true);
+      const container = document.createElement('div');
+      
+      container.style.position = 'fixed';
+      container.style.top = '0';
+      container.style.left = '0';
+      container.style.width = '700px';
+      container.style.margin = '0';
+      container.style.padding = '20px';
+      container.style.background = '#ffffff';
+      container.style.zIndex = '-9999';
+      container.style.direction = 'rtl';
+      container.style.textAlign = 'right';
+
+      clone.style.width = '100%';
+      clone.style.margin = '0';
+      clone.style.boxShadow = 'none';
+      clone.style.border = 'none';
+
+      container.appendChild(clone);
+      document.body.appendChild(container);
+
       const opt = {
-        margin:       [8, 8, 8, 8],
+        margin:       [10, 10, 10, 10],
         filename:     `fiche-pratique-${currentTraineeName.replace(/\s+/g, '_')}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { 
           scale: 2, 
           useCORS: true,
-          logging: false,
           scrollX: 0,
           scrollY: 0,
-          windowWidth: 800
+          x: 0,
+          y: 0,
+          width: 700,
+          windowWidth: 700
         },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // انتظار بسيط (200ms) لضمان اكتمال تصيير الشعار والخطوط قبل الالتقاط
       setTimeout(() => {
-        html2pdf().set(opt).from(element).save().then(() => {
+        html2pdf().set(opt).from(container).save().then(() => {
+          document.body.removeChild(container);
           downloadPdfBtn.innerHTML = `
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             تحميل الملخص بصيغة PDF
@@ -418,10 +442,11 @@
           downloadPdfBtn.disabled = false;
         }).catch((err) => {
           console.error(err);
-          alert("تعذر التصدير التلقائي لـ PDF. يمكنك الضغط على زر 'طباعة سريعة' واختيار Save as PDF.");
+          document.body.removeChild(container);
+          alert("حدث خطأ أثناء إنشاء PDF. يرجى تجربة زر الطباعة السريعة.");
           downloadPdfBtn.disabled = false;
         });
-      }, 250);
+      }, 300);
     });
   </script>
 </body>
